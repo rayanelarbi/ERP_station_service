@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FuelSync - ERP</title>
+        <link rel="stylesheet" href="styles/grid.css">
+        <link rel="stylesheet" href="styles/popup.css">
+        <link rel="stylesheet" href="styles/header.css">
+        <link rel="stylesheet" href="styles/toggle-deux.css">
+        <link rel="stylesheet" href="styles/selectProduct.css">
+        <link rel="stylesheet" href="styles/reStocking.css">
+        <link rel="stylesheet" href="styles/alert.css">
+        <link rel="stylesheet" href="styles/station.css">
+        <link rel="stylesheet" href="styles/staff.css">
+        <link rel="stylesheet" href="styles/incident.css">
+        <link rel="stylesheet" href="styles/pump.css">
+        <link rel="stylesheet" href="styles/card.css">
+        <link rel="stylesheet" href="styles/common-utils.css">
+        <link rel="stylesheet" href="styles/button.css">
+        <link rel="stylesheet" href="styles/formations.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../../node_modules/izitoast/dist/css/iziToast.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <script src="../../node_modules/izitoast/dist/js/iziToast.min.js" type="text/javascript"></script>
+        <script src="https://kit.fontawesome.com/a0e9db0451.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script defer="defer" src="scripts/products.js"></script>
+        <script defer="defer" src="scripts/cards.js"></script>
+        <script defer="defer" src="scripts/formations.js"></script>
+        <script defer="defer" src="scripts/alertes.js"></script>
+        <script defer="defer" src="scripts/supplies.js"></script>
+
+    </head>
+    <body>
+    <!-- <body onload="toggleZoomScreen()"> -->
+        <header id="header">
+            <h1 id="headerTitle" class="hover-1">FuelSync</h1>
+
+            <i id="houseIcon" class="fa-solid fa-house"></i>
+
+            <div id="secondaryHeadersContainer">
+                <h2 id="secondHeaderTitle">Tableau de bord</h2>
+                <h3 id="thirdHeaderTitle">Système de gestion ERP</h3>
+            </div>
+
+            <div id="toggleContainer">
+                <label class="switch">
+                    <input type="checkbox" id="toggleSwitch">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div id="timeContainer">
+                <span id="time"></span>
+            </div>
+
+            <!-- <select name="switch-screen" id="switch-screen" class="classic-box">
+                <option value="0">ERP</option>
+                <option value="1">Caisse</option>
+            </select> -->
+
+            <label for="slct" class="select">
+                <select id="slct" class="classic-box" required>
+                    <option selected value="0">ERP</option>
+                    <option value="1">Caisse</option>
+                </select>
+
+                <svg>
+                    <use xlink:href="#select-arrow-down"></use>
+                </svg>
+            </label>
+            
+            <!-- SVG Sprites -->
+            <svg class="sprites">
+                <symbol id="select-arrow-down" viewBox="0 0 10 6">
+                    <polyline points="1 1 5 5 9 1"></polyline>
+                </symbol>
+            </svg>
+
+            <div id="userContainer">
+                <h3 id="usernameDisplay">Lilian Farchetto</h3>
+                <div class="circle-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                
+            </div>
+              
+              
+        </header>
+        
+        <main>
+            <div>
+                <div id="manager-container-top">
+                    
+                    <div id="divproduct">
+                        <div id="left">
+                            <div id="divPhotoProduit">
+                                <img src="./assets/default-product.jpg" id="product-image" alt="Photo de produit">
+                                <div id="texteInfoProduit">
+                                    <p id="product-name">Nom : </p>
+                                    <p id="product-price">Prix : </p>
+                                    <p id="product-quantity">Stock : </p>
+                                </div>
+                            </div>
+                            <div id="modifPrix">
+                                <p>Modifier le prix :</p>
+                                <input type="text" id="inputPrix" placeholder="XX,XX€">
+                                <button>Modifier</button>
+                            </div>
+                        </div>                        
+              
+                          <div id="right">
+              
+                            <div class="search-wrapper-produit">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <datalist id="product-options">
+                                </datalist>
+                                <input type="search" id="search-input-produit" placeholder="Rechercher">
+                            </div>
+              
+                            <div id="description">
+                                <p id="product-description">Description</p>
+                            </div>
+              
+                            <div id="alerter">
+                              <p>Créer un bon de commande :</p>
+                              <input type="text" id="quantité" placeholder="Quantité">
+                              <button>Confirmer</button>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div id="reStockingContainer" class="">
+                        
+                        <div id="ask-restock">
+                            
+                            <p id="">Demander un réapprovisionnement</p>
+
+                            <!-- <input id="products-and-energy-input" list="products-and-energy" class="classic-box ask-restock-box" placeholder="Produit ou énergie"> -->
+                            <select id="products-and-energy-select" class="ask-restock-box classic-box">
+                                <option value="0" disabled selected>Produit ou énergie</option>
+                            </select>
+                            <!-- <datalist id="products-and-energy">
+                            </datalist> -->
+
+                            <input id="product-quantity-input" class="restrict-input classic-box ask-restock-box" type="text" placeholder="Quantité">
+
+                            <!-- <input id="supplier-input" list="supplier"  class="classic-box ask-restock-box" placeholder="Fournisseur"> -->
+                            <select id="supplier-select" class="ask-restock-box classic-box">
+                                <option value="0" disabled selected>Fournisseur</option>
+                            </select>
+                            <!-- <datalist id="supplier">
+                                <option value="Chiffon"></option>
+                                <option value="Liquide vaisselle"></option>
+                                <option value="DIESEL"></option>
+                            </datalist> -->
+
+                            <a href="#_" id="add-to-cart-button" class="relative inline-block px-4 py-2 font-medium group">
+                                <span class="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+                                <span class="button absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black"></span>
+                                <span class="relative text-black group-hover:text-white">Ajouter +</span>
+                                
+                            </a>
+
+                        </div>
+
+                        <div id="shopping-cart" class="classic-box restock-box">
+                            <p class="">Panier</p>
+                            <div id="cart-container" class="content-wrapper">
+                                <button type="button" class="btn btn-secondary btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off">
+                                </button>
+                                
+                                <!-- Exemple d'éléments ajouté dynamiquement -->
+                                <!-- <div class="element-box classic-box hvr-shrink cliquable">
+                                    <p id="" class="left-element">Disque A - 5</p>
+                                    <div class="right-element">
+                                        <p>X,X€</p>
+                                    </div>
+                                    
+                                </div> -->
+
+                            </div>
+
+                            <div id="shopping-cart-final" class="">
+                                <p id="shopping-cart-final-p">Total : <br>XX,XX€</p>
+                                <a href="#_" id="validate-cart" class="relative inline-block px-4 py-2 font-medium group">
+                                    <span class="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+                                    <span class="button absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black"></span>
+                                    <span class="relative text-black group-hover:text-white">Valider</span>
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                        <div id="in-progress" class="classic-box restock-box">
+                            <p>En cours</p>
+                            <div id="in-progress-commands-container" class="content-wrapper">
+                                <!-- Exemple d'éléments ajouté dynamiquement -->
+                                <!-- <div class="element-box classic-box hvr-round-corners">
+                                        <p id="" class="left-element">Disque A - X,X€</p>
+                                        <div class="right-element">
+                                            <p>6j</p>
+                                        </div>
+                                    
+                                    </div> -->
+                            </div>
+
+                        </div>
+
+                        <div id="to-confirm" class="classic-box restock-box">
+                            <p id="to-confirm-p">À confirmer</p>
+                            <div id="to-confirm-element-container" class="content-wrapper">
+
+                                <!-- Éléments à ajouter dynamiquement -->
+                                <!-- Exemple d'élément dynamique -->
+                                <!-- <div class="element-box classic-box">
+                                    <p id="" class="left-element">Disque A X,X€</p>
+                                    <div class="right-element">
+                                        <i class="green cliquable fa-solid fa-circle-check"></i>
+                                        <i class="red cliquable fa-solid fa-circle-xmark"></i>
+                                    </div>
+                                    
+                                </div> -->
+
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </div>
+                <div id="manager-container-center">
+                    <div id="alertContainer">
+                        <div id="alert-list" class="classic-box">
+                            <div class="content-wrapper">
+
+                                <!-- Éléments à ajouter dynamiquement -->
+                                <div class="alert-list-box classic-box hvr-shrink cliquable">
+                                    <p id="" class="left-element">Alerte</p>
+                                    <div class="right-element">
+                                        <i class="cliquable fa-solid fa-circle-check fa-lg"></i>
+                                        <i class="cliquable fa-solid fa-cart-plus fa-lg"></i>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="alert-list-box classic-box hvr-shrink cliquable">
+                                    <p id="" class="left-element">Alerte</p>
+                                    <div class="right-element">
+                                        <i class="cliquable fa-solid fa-circle-check fa-lg"></i>
+                                        <i class="cliquable fa-solid fa-cart-plus fa-lg"></i>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="alert-list-box classic-box hvr-shrink cliquable">
+                                    <p id="" class="left-element">Alerte</p>
+                                    <div class="right-element">
+                                        <i class="cliquable fa-solid fa-circle-check fa-lg"></i>
+                                        <i class="cliquable fa-solid fa-cart-plus fa-lg"></i>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="alert-list-box classic-box hvr-shrink cliquable">
+                                    <p id="" class="left-element">Alerte</p>
+                                    <div class="right-element">
+                                        <i class="cliquable fa-solid fa-circle-check fa-lg"></i>
+                                        <i class="cliquable fa-solid fa-cart-plus fa-lg"></i>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="alert-list-box classic-box hvr-shrink cliquable">
+                                    <p id="" class="left-element">Alerte</p>
+                                    <div class="right-element">
+                                        <i class="cliquable fa-solid fa-circle-check fa-lg"></i>
+                                        <i class="cliquable fa-solid fa-cart-plus fa-lg"></i>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="alert-list-box classic-box hvr-shrink cliquable">
+                                    <p id="" class="left-element">Alerte</p>
+                                    <div class="right-element">
+                                        <i class="cliquable fa-solid fa-circle-check fa-lg"></i>
+                                        <i class="cliquable fa-solid fa-cart-plus fa-lg"></i>
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="alert-details">
+                            
+                            <div class="alert-details-box classic-box">
+                                <p>Détail de l'alerte</p>
+
+                            </div>
+
+                            <div class="alert-details-box classic-box">
+                                <div class="alert-details-box-left">
+                                    <p>Seuil carburant :</p>
+                                    <input id="fuel-amount-bar" class="custom-range" type="range" name="rng" min="0" step="1" max="5000" value="0" oninput="updateTextInput()">
+                                </div>
+                                
+                                <div class="alert-details-box-right">
+                                    <select id="fuel-select" class="alert-details-select classic-box">
+                                        <option value="0" disabled selected>Carburant</option>
+                                    </select>
+                                    <input id="fuel-amount-input" class="restrict-input alert-details-input-number classic-box" placeholder="XXX L" type="text" oninput="updateRange()">
+                                </div>
+
+                            </div>
+
+                            <div class="alert-details-box classic-box">
+                                <div class="alert-details-box-left">
+                                    <p>Seuil produit :</p>
+                                    <input id="product-amount-bar" class="custom-range" type="range" name="rng" min="0" step="1" max="100" value="0" oninput="updateProductInput()">
+                                </div>
+                                
+                                <div class="alert-details-box-right">
+                                    <select id="product-select" class="alert-details-select classic-box">
+                                        <option value="0" disabled selected>Produit</option>
+                                    </select>
+                                    <input id="product-amount-input" class="restrict-input alert-details-input-number classic-box" placeholder="XXX" type="text" oninput="updateProductRange()">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="stationContainer">
+                        <div class="topSection">
+
+                            <div id="station-schedule" class="leftPart classic-box">
+                                <div class="schedule-top">
+                                    <p>Horaires :</p>
+                                </div>
+                                <div class="schedule-bottom">
+                                    <input id="schedule-start" class="classic-box station-box" type="text" placeholder="8 h 00" step="900" onfocus="this.type='time'"/>
+                                    <p>à</p>
+                                    <input id="schedule-end" class="classic-box station-box" type="text" placeholder="18 h 00" step="900" onfocus="this.type='time'"/>
+                                </div>
+                            </div>
+
+                            <div id="station-phone" class="rightPart classic-box">
+                                <div class="phone-top">
+                                    <p>Téléphone</p>
+                                </div>
+                                <div class="phone-bottom">
+                                    <input id="phone-input" class="restrict-input classic-box station-box" type="tel" placeholder="07 82 41 46 61"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="bottomSection classic-box">
+                            
+                            <div class="leftDiv">
+                                <div id="bottom-left-top-div" class="classic-box">
+                                    <p id="bottom-left-top-div-p" class="bottom-left-div-p">Nombre de transactions :</p>
+                                    <input id="nb-transaction-input" class="restrict-input bottom-left-div-input classic-box" type="text" placeholder="XXX" inputmode="numeric">
+                                </div>
+
+                                <div id="bottom-left-bottom-div" class="classic-box">
+                                    <p id="bottom-left-bottom-div-p" class="bottom-left-div-p">Volume total de carburant :</p>
+                                    <input id="volume-total-carburant-input" class="restrict-input bottom-left-div-input classic-box" type="text" placeholder="XXXX L" inputmode="numeric">
+                                </div>
+                            </div>
+
+                            <div class="middleDiv">
+
+                                <div id="bottom-middle-div-top-div" class="classic-box">
+                                    <p id="bottom-middle-div-top-div-p">Montant total en € :</p>
+                                    <input id="montant-total-euro-input" class="restrict-input middle-station-box classic-box" type="text" placeholder="XXXX €" inputmode="numeric">
+                                </div>
+
+                                <a href="#_" id="send-day-report-button" class="relative inline-block px-4 py-2 font-medium group">
+                                    <span class="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+                                    <span class="button absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black"></span>
+                                    <span class="relative text-black group-hover:text-white">Valider</span>
+                                </a>
+
+                            </div>
+                            <div class="rightDiv">
+                                <textarea id="right-div-main-div" class="classic-box">Informations sur les transactions de la journée</textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    
+                    <div id="staffContainer" class="">
+                        
+                        <div id="staff-left-div" class="">
+                            <p>Liste du personnel :</p>
+                            <ul id="staff-list" class="classic-box">
+                                <!-- <li id="1">Shad AZUELOS <i class="manage-staff fa-solid fa-bars cliquable hidden"></i></li> -->
+                                <!-- <li>Jeremy MONCADA <i class="manage-staff fa-solid fa-bars cliquable hidden"></i></li>
+                                <li>Lilian FARCHETTO <i class="manage-staff fa-solid fa-bars cliquable hidden"></i></li>
+                                <li>Rayane LARBI <i class="manage-staff fa-solid fa-bars cliquable hidden"></i></li>
+                                <li>Nicolas VETROFF <i class="manage-staff fa-solid fa-bars cliquable hidden"></i></li>
+                                <li>Thomas MUNOZ <i class="manage-staff fa-solid fa-bars cliquable hidden"></i></li>
+                                <li>Andy MONTARU <i class="manage-staff fa-solid fa-bars cliquable hidden"></i></li>  -->
+                            </ul>
+                            <p id="staff-left-second-p">Gestion formation :</p>
+                            <!-- <div id="liste_formation" class="content-wrapper-v2">
+                                
+                            </div> -->
+                            <div id="liste_formation" class="content-wrapper-v2">
+                                
+                            </div>
+                        </div>
+
+                        <div id="staff-right-div" class="">
+                            <p>Fiche personnel</p>
+                            <p id="" class="staff-right-div-main-p">Formation :</p>
+                            <div id="formationContent" class="content-wrapper-v3">
+                                <p class="staff-right-div-secondary-p">Polytechnique 2021 - 2022 - Ingénieur informatique</p>
+                                <p class="staff-right-div-secondary-p">Harvard 2021-2022 - Médecine (Neurochirurgien)</p>
+                                <p class="staff-right-div-secondary-p">HEC 2021-2022 - Commercial</p>
+                            </div>
+                            
+                            <p id="" class="staff-right-div-main-p">Expériences professionnelles :</p>
+                            <div id="experienceContent" class="content-wrapper-v3">
+                                <p class="staff-right-div-secondary-p">NASA - Cosmonaute (été 2023)</p>
+                                <p class="staff-right-div-secondary-p">États Unis - Président (hiver 2022)</p>
+                                <p class="staff-right-div-secondary-p">Armée de terre - Général (temps partiel)</p>
+                            </div>
+                            
+                            <p class="margin-top-2">Inscription :</p>
+                            <input id="inscription-name" type="text" class="staff-inscription-box classic-box" placeholder="Nom : Rey">
+                            <input id="inscription-first-name" type="text" class="staff-inscription-box classic-box" placeholder="Prénom : Gaetan">
+                            <input id="inscription-phone" type="text" class="restrict-input staff-inscription-box classic-box" placeholder="Téléphone : 07 82 41 46 61">
+                        </div>
+                    </div>
+                </div>
+                <div id="manager-container-bottom">
+
+                    <!-- Incidents -->
+                    <div id="incident" class="">
+                        <div id="createIncident">
+                            <input type="datetime-local" id="dateTime" placeholder="Date Heure">
+                            <select id="incidentType">
+                                <option value="" disabled selected>Type</option>
+                                <option value="type1">Type 1</option>
+                                <option value="type2">Type 2</option>
+                                <option value="type3">Type 3</option>
+                            </select>
+                            <textarea id="technicalDetail" placeholder="Détail technique"></textarea>
+                            <textarea id="remark" placeholder="Remarque"></textarea>
+                            <a href="#_" id="createButton" class="relative inline-block px-4 py-2 font-medium group">
+                                <span class="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+                                <span class="button absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black"></span>
+                                <span class="relative text-black group-hover:text-white">Créer</span>
+                            </a>
+                        </div>
+
+                        <div id="checkIncident">
+                            <!-- Les incidents ici -->
+                        </div>
+                    </div>
+
+                    <div id="employee-container-bottom-oil" class="">
+                        <div id="employee-container-bottom-oil-remaining" class="">
+                            <!-- <div><span class="oil-name">SP85</span><span class="oil-remaining">26.125,22</span></div>
+                            <div><span class="oil-name">SP95</span><span class="oil-remaining">29.645,36</span></div>
+                            <div><span class="oil-name">Gazole</span><span class="oil-remaining">16.234,78</span></div> -->
+                        </div>
+                        <div id="employee-container-bottom-pump-status" class="">
+
+                            <!-- <div id="pump1" class="hvr-outline-out">
+                                <div>
+                                    <p class="pump-name"><i class="fa-solid fa-gas-pump"></i> Pompe n°1</p>
+                                    <p class="status"></p>
+                                </div>
+                                <p>
+                                    <span class="pump-oil-name">SP95</span>
+                                    <span class="pump-oil-name">SP98</span>
+                                    <span class="pump-oil-name">Gazole</span>
+                                </p>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div id="cards" class="">
+                        <div id="divSearch" class="">
+                            <p>N° Carte</p>
+                            <div class="search-wrapper">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="search" id="search-input" placeholder="Rechercher">
+                                <!-- <button class="button">SCANNER</button> -->
+                                <a href="#_" id="scan-button" class="relative inline-block px-4 py-2 font-medium group">
+                                    <span class="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+                                    <span class="button absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black"></span>
+                                    <span class="relative text-black group-hover:text-white">SCANNER</span>
+                                </a>
+                            </div>
+                        </div>
+            
+                        <div id="divIdCard" class="">
+                            <p>Numéro d'identification de la carte :</p>
+                            <div>
+                                <input type="text" placeholder="X123456789" readonly>
+                            </div>
+                        </div>
+            
+                        <div id="divPhoto" class="">
+                            <img src="./assets/default-pfp.png" alt="Photo de profil">
+                        </div>
+            
+                        <div id="divName" class="">
+                            <p>NOM &amp; PRÉNOM :</p>
+                            <div>
+                                <input type="text" placeholder="Larbi Rayane">
+                                <!-- <button class="button">Modifier</button> -->
+                                <a href="#_" id="modifier-name-button" class="relative inline-block px-4 py-2 font-medium group">
+                                    <span class="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+                                    <span class="button absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black"></span>
+                                    <span class="relative text-black group-hover:text-white">Modifier</span>
+                                </a>
+                            </div>
+                        </div>
+            
+                        <div id="divDateSolde">
+                            <div id="divDate">
+                              <p>Date de naissance :</p>
+                              <p>DD/MM/YYYY</p>
+                            </div>
+              
+                            <div id="divSolde">
+                              <p>Solde :</p>
+                              <p>XXXX</p>
+                            </div>
+                        </div>
+              
+                          <div id="divCreatonValiderCrediter">
+                            <div id="divCreation">
+                              <p>Date de création :</p>
+                              <p>DD/MM/YYYY</p>
+                            </div>
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script src="scripts/product-module/products.js"></script>
+
+        <script src="scripts/common/displayTime.js"></script>
+        <script src="scripts/common/restrictInput.js"></script>
+        <script src="scripts/common/phones-input-formatting.js"></script>
+        <script src="scripts/common/toggle-drag-and-drop.js"></script>
+        <script src="scripts/common/switch-screen.js"></script>
+
+        <script src="scripts/restock-module/add-to-cart.js"></script>
+        <script src="scripts/restock-module/validate-cart.js"></script>
+        <script src="scripts/restock-module/to-confirm.js"></script>
+        <script src="scripts/restock-module/get-products.js"></script>
+        <script src="scripts/restock-module/get-suppliers.js"></script>
+        <script src="scripts/restock-module/total-price.js"></script>
+
+        <script src="scripts/alert-module/fuel-amount-bar.js"></script>
+        <script src="scripts/alert-module/product-amount-bar.js"></script>
+        <script src="scripts/alert-module/fuel-product-limit.js"></script>
+        <script src="scripts/alert-module/get-fuels.js"></script>
+        <script src="scripts/alert-module/get-products.js"></script>
+
+        <script src="scripts/station-module/send-day-report.js"></script>
+        <script src="scripts/station-module/opening-schedules.js"></script>
+        <script src="scripts/station-module/phone.js"></script>
+        <script src="scripts/station-module/get-station-info.js"></script>
+
+        <script src="scripts/staff-module/staff-list.js"></script>
+        <script src="scripts/staff-module/inscription.js"></script>
+        <script src="scripts/staff-module/manage-staff.js"></script>
+        <script src="scripts/staff-module/get-staffs.js"></script>
+        <script src="scripts/staff-module/getallformations.js"></script>
+
+        <script src="scripts/pump-module/pump.js"></script>
+        <script src="scripts/pump-module/get-fuels.js"></script>
+
+        <script src="scripts/incident-module/getallincidents.js"></script>
+        <script src="scripts/incident-module/createincident.js"></script>
+        <script src="scripts/incident-module/getincidentdetails.js"></script>
+    </body>
+</html>

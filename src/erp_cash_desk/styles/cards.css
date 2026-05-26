@@ -1,0 +1,153 @@
+/* La div cartes entière */
+#cards {
+    display: flex;
+    flex-direction: column;
+    background-color: #597EAA;
+    position: relative;
+}
+
+#cards > div {
+    /*border: 2px solid red;*/
+    margin: 1.5%;
+}
+
+#divIdCard input {
+    font-family: Balsamiq Sans;
+    width: 50%;
+    box-sizing: border-box;
+    border: 2px solid black;
+    padding: 2px;
+}
+
+#divName input {
+    font-family: Balsamiq Sans;
+    width: 50%;
+    box-sizing: border-box;
+    border: 2px solid black;
+    padding: 2px;
+}
+
+/* CSS des boutons de cartes */
+.button {
+    height: 100%;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+#cards p,
+#cards button {
+    font-family: Balsamiq Sans;
+}
+
+#divSearch {
+    order: 1;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.search-wrapper i {
+    background-color: white;
+    border: 2px solid black;
+    padding: 2px;
+    border-right: none;
+}
+
+#search-input {
+    margin-right: 2%;
+    border-left: none;
+    outline: none;
+}
+
+#divSearch input {
+    font-family: Balsamiq Sans;
+    width: 45%;
+    box-sizing: border-box;
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    padding: 2px;
+}
+
+
+#divIdCard {
+    order: 2;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+
+#divPhoto {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#divPhoto button {
+    margin-top: 4%;
+}
+
+#divPhoto img {
+    width: 140px;
+    height: 140px;
+    border: 2px solid #000;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+
+#divName {
+    order: 4;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#divDateSolde {
+    order: 5;
+    display: flex;
+    padding-top: 2%;
+    font-size: 120%;
+}
+
+#divDate {
+    flex: 1;
+}
+
+#divSolde {
+    flex: 1;
+}
+
+#divCreatonValiderCrediter {
+    order: 6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 120%;
+}
+
+#divCrediter {
+    font-size: 160%;
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid black;
+    padding: 2px;
+}
+
+#divValider:active {
+    background-color: grey;
+}
+
+#cards button:active {
+    background-color: grey;
+}

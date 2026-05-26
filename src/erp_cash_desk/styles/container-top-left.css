@@ -1,0 +1,53 @@
+.ticket {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.addProduct {
+    border: 2px solid black;
+    margin: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-self: flex-end;
+    width: 96%;
+    position: absolute;
+    bottom: 4px;
+    left: 48%;
+    transform: translateX(-50%);
+}
+
+.addProduct > p {
+    margin: 2%;
+    font-family: Balsamiq Sans;
+    font-size: 140%;
+}
+
+.divplus {
+    width: 7%;
+    margin: 1%;
+    margin-right: 2%;
+    min-width: 8%;
+    border: 2px solid black;
+    background-color: #6AA84F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+i:hover {
+    cursor: pointer;
+}
+
+#ticket-items {
+    margin-top: 1%;
+    max-height: 65%;
+    overflow-y: scroll;
+    font-family: Balsamiq Sans;
+    font-size: 120%;
+    padding: 2%;
+}
+
+#total {
+    margin: 2%;
+}
